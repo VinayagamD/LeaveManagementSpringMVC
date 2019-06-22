@@ -28,6 +28,7 @@ public class Leave implements Serializable {
 	private String name;
 	private Date fromDate;
 	private Date toDate;
+	private String employee;
 	/**
 	 * @return the id
 	 */
@@ -76,12 +77,23 @@ public class Leave implements Serializable {
 	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
-	
-	
+	/**
+	 * @return the employee
+	 */
+	public String getEmployee() {
+		return employee;
+	}
+	/**
+	 * @param employee the employee to set
+	 */
+	public void setEmployee(String employee) {
+		this.employee = employee;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((employee == null) ? 0 : employee.hashCode());
 		result = prime * result + ((fromDate == null) ? 0 : fromDate.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -97,6 +109,11 @@ public class Leave implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Leave other = (Leave) obj;
+		if (employee == null) {
+			if (other.employee != null)
+				return false;
+		} else if (!employee.equals(other.employee))
+			return false;
 		if (fromDate == null) {
 			if (other.fromDate != null)
 				return false;
@@ -121,10 +138,8 @@ public class Leave implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Leave [id=" + id + ", name=" + name + ", fromDate=" + fromDate + ", toDate=" + toDate + "]";
+		return "Leave [id=" + id + ", name=" + name + ", fromDate=" + fromDate + ", toDate=" + toDate + ", employee="
+				+ employee + "]";
 	}
-	
-	
-	
 	
 }
