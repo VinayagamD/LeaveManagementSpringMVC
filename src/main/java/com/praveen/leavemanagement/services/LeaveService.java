@@ -1,5 +1,7 @@
 package com.praveen.leavemanagement.services;
 
-public interface LeaveService {
+import com.praveen.leavemanagement.domains.Leave;
+
+public interface LeaveService extends CrudService<Leave, Long>{
 
 }

@@ -3,9 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.11.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 
 	<!-- Step3: Add support for component scanning -->
@@ -20,4 +24,36 @@
 		<property name="prefix" value="/WEB-INF/view/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+
+	<!-- JPA Config -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="url" value="jdbc:mysql://localhost:3306/leave_management"/>
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="username" value="vinay"/>
+		<property name="password" value="drago"/>
+	</bean>
+	
+	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="packagesToScan" value="com.praveen.leavemanagement"/>
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+		<property name="jpaProperties">
+			<map>
+				<entry  key="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+				<entry key="hibernate.hbm2ddl.auto" value="update"/>
+				<entry key="hibernate.show_sql" value="true"/>
+			</map>
+		</property>
+		
+	</bean>
+	<jpa:repositories base-package="com.praveen.leavemanagement.repository"/>
+	
+	<!-- For Transaction -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" >
+		<constructor-arg ref="entityManagerFactory"></constructor-arg>
+	</bean>
+	
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

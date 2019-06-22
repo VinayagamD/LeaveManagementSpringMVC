@@ -6,12 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/index")
 public class IndexController {
 	
-	@GetMapping("")
-	public ModelAndView getIndex() {
-		return new ModelAndView("index/index");
+	@GetMapping({"","/","/index.html","/index"})
+	public String getIndex() {
+		return "index/index";
 	}
 
 }
